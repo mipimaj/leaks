@@ -18,8 +18,8 @@ from sklearn.cluster import KMeans
 import os
 import pytz
 
-webhook = "https://discord.com/api/webhooks/1226579210097918124/1cQLRw8gQ_AM3dES0b2dnEX4hWBt5BKckz_2knkQyj4mL7JEdBbd6RsB5SKwTN9Tr026"
-webhook2 = "https://discord.com/api/webhooks/1227309055144497152/mxCmp_bJdQO0Q87o_-5IKKyMoK5ldjPym8HSHmFufpl-Eueoumza5utsWtQhUQT0FTQj"
+webhook = ""
+webhook2 = ""
 takeLeaks = 100
 
 nomLeaks = ""
@@ -92,7 +92,7 @@ def timeClock():
    print("ok")
    nameAndImage = -1
    link = 7
-   time.sleep(3)
+   time.sleep(600)
    dataToReceive()
 
 def sendToDiscord(colorHexa):
@@ -150,9 +150,6 @@ def getData(nameAndImage, link):
 
    LienLeaksTrue = False
 
-   driver.get(lien)
-   time.sleep(1)
-
    nom = driver.find_elements(By.CSS_SELECTOR, "[style='font-size:16px !important; overflow: hidden !important;']")
    print(nom[nameAndImage].text)
    nomLeaks = nom[nameAndImage].text
@@ -161,6 +158,8 @@ def getData(nameAndImage, link):
    if nomLeaks in loaded_data["leaks"]:
       print("leaks déjà existant")
    else:
+      driver.get(lien)
+      time.sleep(5)
       # Ajouter la nouvelle valeur au début de la liste
       loaded_data["leaks"].insert(0, nomLeaks)
 
@@ -176,14 +175,14 @@ def getData(nameAndImage, link):
 
          links = driver.find_elements(By.TAG_NAME, "a")
          print(links[link].get_attribute('href'))
-         time.sleep(5)
+         time.sleep(1)
          driver.get(links[link].get_attribute('href'))
-         time.sleep(10)
+         time.sleep(1)
          lienWithNoAds = driver.find_elements(By.TAG_NAME, "a")
          print(lienWithNoAds[0].get_attribute('href'))
 
          lienLeaks = lienWithNoAds[0].get_attribute('href')
-         time.sleep(5)
+         time.sleep(1)
 
          url = "https://dash-api.work.ink/v1/link"
 
@@ -220,7 +219,7 @@ def dataToReceive():
       link += 3
       nameAndImage += 1
       getData(nameAndImage, link)
-      time.sleep(10)
+      time.sleep(1)
 
    timeClock()
 
